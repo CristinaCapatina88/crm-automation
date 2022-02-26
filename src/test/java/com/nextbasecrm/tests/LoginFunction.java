@@ -69,4 +69,23 @@ public class LoginFunction {
         String actualTitle=driver.getTitle();
         Assert.assertEquals(actualTitle, expectedTitle);
     }
+
+
+    @Test
+    public void  login_with_valid_username_invalid_password(){
+        // 2-write username
+        WebElement userName = driver.findElement(By.xpath("(//input[@class='login-inp'])[1]"));
+        userName.sendKeys(ConfigurationReader.getProperty("username"));
+        //     * 3-write password
+        WebElement password = driver.findElement(By.xpath("(//input[@class='login-inp'])[2]"));
+        password.sendKeys("abcd");
+        //     * 4-click login button
+        WebElement loginBtn = driver.findElement(By.xpath("//input[@type='submit']"));
+        BrowserUtils.sleep(3);
+        loginBtn.click();
+        // 5 verify title
+        String expectedErrorMessage="Incorrect login or password";
+        String actualTitle=driver.findElement(By.xpath("//div[@class='errortext']")).getText();
+        Assert.assertEquals(actualTitle, expectedErrorMessage);
+    }
 }
